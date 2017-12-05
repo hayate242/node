@@ -7,3 +7,4 @@ http.createServer(function (req, res) {
 }).listen(3000); // ポート3000番でコネクションの受け入れを行う
 // 実行時、コンソールに表示されるメッセージ
 console.log('Server running at http://[your_public_ip]:3000/');
+
