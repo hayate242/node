@@ -1,0 +1,94 @@
+sudo yum update
+sudo yum -y install gcc-c++
+
+① Gitのインストール
+
+$ sudo yum -y install git
+② nvmのインストール
+
+⑴ nvmのダウンロード
+
+githubから nvmをクローンします。
+$ git clone https://github.com/creationix/nvm.git ~/.nvm
+nvmへのパスを通します。
+$ source ~/.nvm/nvm.sh
+⑵ nvmコマンドへのパスの設定
+
+このままではログアウトすると、nvmへのパスがリセットされnvmコマンドが使用できなくなり、その度に、パスを設定しなおさなくてはなりません。そこで、Linuxにログインしたときに実行される.bash_profileに設定を書き込みます。
+ユーザのホームディレクトリにある .bash_profile (/home/ec2-user/.bash_profile) をviエディタで開きます。
+$ vi .bash_profile
+iキーを押して、挿入モードにします。
+viエディタの使い方
+http://net-newbie.com/linux/commands/vi.html
+以下のテキストを追記します。
+# nvm
+if [[ -s ~/.nvm/nvm.sh ]] ; then
+        source ~/.nvm/nvm.sh ;
+fi
+追記が完了したら、escキーを押し、:wqと入力してreturnキーを押し、変更を保存して閉じます。
+exitでログアウトしてから、ssh接続しなおし設定を反映させた上で、nvmコマンドが使用できるか確認しましょう。
+③ Node.jsをインストールする
+
+⑴ インストール可能な Node.js のバージョン一覧を表示します
+
+$ nvm ls-remote
+すると、
+        v0.1.14
+        v0.1.15
+        v0.1.16
+        ...
+        v5.0.0
+    ...
+というように、インストール可能なNodeの一覧が表示されます。
+ここでは、現在（2015年11月）Node.jsの最新版である v5.0.0 を使用することとします。
+⑵ Node.js のインストール
+
+$ nvm install 8.9.1
+⑶ 使用するバージョンの指定
+
+インストールしたバージョンをnvmで指定します
+$ nvm use v8.9.1
+
+確認のため、以下のコマンドを打ち、
+$ node -v
+v5.0.0
+と表示されたら成功です。
+6. Nodeを実行する
+
+テストとして、NodeによるシンプルなHTTPサーバを立ててみます。
+① ディレクトリを作成し、その下に移動
+
+デフォルトだと、/home/ec2-user の下に作られます。
+$ mkdir nodetest
+$ cd nodetest
+② jsファイルを作成し、編集
+
+http-server-simple.jsというファイルを作成します。
+$ touch http-server-simple.js
+$ vi http-server-simple.js
+③ コードを記述
+
+iで挿入モードにしてコードを記述。完了したら、:wqで保存して閉じる。
+http-server-simple.js
+// httpモジュールの読み込み
+var http = require('http');
+// httpサーバの作成
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(3000); // ポート3000番でコネクションの受け入れを行う
+// 実行時、コンソールに表示されるメッセージ
+console.log('Server running at http://[your_public_ip]:3000/');
+④ コードを実行
+
+$ node http-server-simple.js
+Server running at http://[your_public_ip]:3000/
+Server running at ... というメッセージがコンソールに表示されたら成功です。エラーメッセージが表示された場合、コードの記述に間違いがある可能性があります。エラーメッセージに従って、コードの修正を行ってください。
+コマンドが見つかりません。と表示される場合は、nvmで使用するnodeのバージョンが指定されていないのかも知れません。$ nvm use vx.x.xでバージョンの指定を行ってください。
+⑤ ブラウザからアクセスする
+
+ChomeやSafariなどのブラウザで、
+http://[your_ip_address]:3000/
+とアドレスバーに打ちこんで、アクセスしてみてください。
+Hello World
+と表示されたら成功です。
