@@ -1,2 +1,22 @@
 
 npm install ejs
+
+Express
+サーバ全体
+npm install express
+プロジェクトフォルダ内で
+mkdir expressapp
+npm init
+npm install express --save
+npm install ejs
+node app.js
+
+viewsフォルダを作成して
+その中にtemplateファイル(ejs)を配置する
+
+
+⭐️Expressファイル自動生成
+npm install -g express-generator(ver4.~以上)
+mkdir exapp
+express -e exapp
+cd exapp && npm install

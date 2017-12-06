@@ -30,7 +30,7 @@ console.log('Server running!');
 // リクエストの処理
 function doRequest(request, response) {
     var url_parts = url.parse(request.url);
-    // console.log(url_parts);
+    // console.log(url_parts);  
     // route check
     if (routes[url_parts.pathname] == null){
         console.log("NOT FOUND PAGE:" + request.url);
